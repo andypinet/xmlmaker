@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col col-sm-8">
+        <start-polymer3 name="hel"></start-polymer3>
+        <start-polymer3 name="s"></start-polymer3>
+        <div id="editor" style="border: 1px solid #eee;"></div>
+      </div>
+      <div id="app" class="col col-sm-4">
+        <c-control></c-control>
+      </div>
+    </div>
+  </div>
+  <script id="c-control-tpl" type="text/template">
+    <div>
+      <div class="btn" @click="addAText">add a text</div>
+    </div>
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17-beta.0/vue.min.js"></script>
+  <script>
+      function ___load(src) {
+        var a = document.createElement('script')
+        a.src = src
+        document.head.appendChild(a)
+      }
+
+      __injected__
+    </script>
+</body>
+
+</html>
