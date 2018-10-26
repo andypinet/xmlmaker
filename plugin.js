@@ -15,7 +15,7 @@ class MyPlugin {
                 JSON.parse(data.plugin.assetJson).filter(v => v.indexOf('.js') > -1)
               )
             }
-            console.log(jsFiles)
+            // console.log(jsFiles)
             if (jsFiles) {
               data.html = data.html.replace(
                 '__injected__',

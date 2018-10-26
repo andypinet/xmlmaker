@@ -11,7 +11,7 @@ function resolve(dir) {
 let devMode = true
 let fs = require('fs')
 let _config = function() {
-  
+
 }
 if (fs.existsSync('./config/dev.js')) {
   _config = require('./config/dev')
@@ -104,6 +104,17 @@ app2config.module.rules.push({
   }
 })
 app2config.plugins = app2config.plugins.concat([
+  new HtmlWebpackPlugin({
+    template: './src/index.ejs',
+    inject: false,
+    hash: true
+  }),
+  new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: '[name].css',
+    chunkFilename: '[id].css'
+  }),
   new MyPlugin({})
 ])
 
