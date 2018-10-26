@@ -26,21 +26,6 @@ class StartPolymer3 extends PolymerElement {
 
 customElements.define('start-polymer3', StartPolymer3)
 
-// let Page = (def = {}) => {
-//   if (def.components) {
-//     for (let k in def.components) {
-//       def.components[k].install()
-//     }
-//   }
-// }
-
-// Page({
-//   components: {
-//     Text,
-//     Repeat
-//   }
-// })
-
 // editor
 class Editor {
   constructor(el) {

@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let jsFiles = []
+
 class MyPlugin {
   apply(compiler) {
     const self = this
@@ -11,23 +12,41 @@ class MyPlugin {
           'MyPlugin', // <-- Set a meaningful name here for stacktraces
           (data, cb) => {
             if (data.plugin.assetJson) {
-              jsFiles = jsFiles.concat(
+              jsFiles.push(
                 JSON.parse(data.plugin.assetJson).filter(v => v.indexOf('.js') > -1)
               )
             }
-            // console.log(jsFiles)
-            if (jsFiles) {
+            let createStr = function(arr) {
+              let s = ''
+              if (arr) {
+                let c = function(filename) {
+                  return ` ___load('${filename}');`
+                }
+                s = arr.map(v => {
+                  return c(v)
+                }).join(' ')
+              }
+              return s
+            }
+            console.log(jsFiles)
+            if (jsFiles && jsFiles.length > 0) {
+              jsFiles = jsFiles.sort((a,b) => {
+                if (a[0].indexOf('loose') > 0) {
+                  return 1
+                }
+                return 0
+              })
               data.html = data.html.replace(
                 '__injected__',
                 `
                 +function () {
                   "use strict"
                   try {
-                    eval('new class {}')
-                    ___load('${jsFiles[0]}')
+                    eval('new class {}');
+                    ${createStr(jsFiles[0])}
                   } catch(e) {
-                    console.error(e)
-                    ___load('${jsFiles[1]}')
+                    console.error(e);
+                    ${createStr(jsFiles[1])}
                   }
                 }()
                 `

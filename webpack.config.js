@@ -4,48 +4,64 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 let MyPlugin = require('./plugin')
 
+var webpack = require('webpack')
+
 function resolve(dir) {
   return path.join(__dirname, '.', dir)
 }
 
 let devMode = true
 let fs = require('fs')
-let _config = function() {
-
-}
+let _config = function() {}
 if (fs.existsSync('./config/dev.js')) {
   _config = require('./config/dev')
 }
 
 let baseConfig = function() {
-  return Object.assign({
-    mode: 'none',
-    entry: {
-      main: './src/index'
-    },
-    output: {},
-    module: {
-      rules: [
-        {
-          test: /\.(sa|sc|c)ss$/,
-          use: [
-            devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-            'css-loader',
-            'postcss-loader',
-            'sass-loader'
-          ]
+  return Object.assign(
+    {
+      mode: 'none',
+      entry: {
+        main: './src/index'
+      },
+      output: {},
+      optimization: {
+        namedModules: true,
+        splitChunks: {
+          cacheGroups: {
+            webcomponents: {
+              test: /[\\/]node_modules[\\/](@webcomponents)/,
+              chunks: 'all'
+            }
+          }
         }
-      ]
+      },
+      module: {
+        rules: [
+          {
+            test: /\.(sa|sc|c)ss$/,
+            use: [
+              devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+              'css-loader',
+              'postcss-loader',
+              'sass-loader'
+            ]
+          }
+        ]
+      },
+      resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+          '@': resolve('src')
+        }
+      },
+      plugins: []
     },
-    resolve: {
-      extensions: ['.js', '.vue', '.json'],
-      alias: {
-        '@': resolve('src')
-      }
-    },
-    plugins: []
-  }, _config().webpack)
+    _config().webpack
+  )
 }
+
+let myplugin =  new MyPlugin({})
 
 let app1config = baseConfig()
 app1config.output.filename = 'main.js'
@@ -80,7 +96,7 @@ app1config.plugins = app1config.plugins.concat([
     filename: '[name].css',
     chunkFilename: '[id].css'
   }),
-  new MyPlugin({})
+  myplugin
 ])
 
 let app2config = baseConfig()
@@ -115,7 +131,7 @@ app2config.plugins = app2config.plugins.concat([
     filename: '[name].css',
     chunkFilename: '[id].css'
   }),
-  new MyPlugin({})
+  myplugin
 ])
 
 module.exports = [app1config, app2config]
