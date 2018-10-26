@@ -9,9 +9,15 @@ function resolve(dir) {
 }
 
 let devMode = true
+let fs = require('fs')
+let _config = {}
+if (fs.existsSync('./config/dev.js')) {
+  _config = require('./config/dev')
+}
+console.log('_config :', _config);
 
 let baseConfig = function() {
-  return {
+  return Object.assign({
     mode: 'none',
     entry: {
       main: './src/index'
@@ -37,10 +43,11 @@ let baseConfig = function() {
       }
     },
     plugins: []
-  }
+  }, _config.webpack)
 }
 
 let app1config = baseConfig()
+console.log(app1config)
 app1config.output.filename = 'main.js'
 app1config.module.rules.push({
   test: /\.m?js$/,
@@ -73,9 +80,7 @@ app1config.plugins = app1config.plugins.concat([
     filename: '[name].css',
     chunkFilename: '[id].css'
   }),
-  new MyPlugin({
-
-  })
+  new MyPlugin({})
 ])
 
 let app2config = baseConfig()
@@ -110,9 +115,7 @@ app2config.plugins = app2config.plugins.concat([
     filename: '[name].css',
     chunkFilename: '[id].css'
   }),
-  new MyPlugin({
-
-  })
+  new MyPlugin({})
 ])
 
 module.exports = [app1config, app2config]
