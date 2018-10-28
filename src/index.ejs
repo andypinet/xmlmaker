@@ -6,7 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+  <script>
+    function ___load(src) {
+      var a = document.createElement('script')
+      a.src = src
+      document.head.appendChild(a)
+    }
+    try {
+      eval('Reflect.getPrototypeOf({})')
+    } catch (e) {
+      ___load('https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js')
+    }
+
+    try {
+      if (!Object.values) { throw {} }
+    } catch (e) {
+      ___load('https://cdn.bootcss.com/es7-shim/6.0.0/es7-shim.min.js')
+    }
+
+    try { if (new URLSearchParams('q=%2B').get('q') !== '+') throw {}; }
+    catch (error) {
+      window.URLSearchParams = void 0;
+      ___load('https://cdn.bootcss.com/url-search-params/1.1.0/url-search-params.js')
+    }
+  </script>
+  <script src="https://cdn.bootcss.com/es7-shim/6.0.0/es7-shim.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
   <style>
   </style>
@@ -32,14 +56,8 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17-beta.0/vue.min.js"></script>
   <script>
-      function ___load(src) {
-        var a = document.createElement('script')
-        a.src = src
-        document.head.appendChild(a)
-      }
-
-      __injected__
-    </script>
+    __injected__
+  </script>
 </body>
 
 </html>
