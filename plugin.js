@@ -18,24 +18,24 @@ class MyPlugin {
           (data, cb) => {
             if (data.plugin.assetJson) {
               jsFiles.push(
-                JSON.parse(data.plugin.assetJson).filter(v => v.indexOf('.js') > -1)
+                JSON.parse(data.plugin.assetJson).filter(
+                  v => v.indexOf('.js') > -1
+                )
               )
             }
             let createStr = function(arr) {
               let s = ''
               if (arr) {
-                let c = function(filename) {
+                let c = filename => {
                   return ` ___load('${filename}');`
                 }
-                s = arr.map(v => {
-                  return c(v)
-                }).join(' ')
+                s = arr.map(v => c(v)).join(' ')
               }
               return s
             }
-            console.log(jsFiles)
+            // console.log(jsFiles)
             if (jsFiles && jsFiles.length > 0) {
-              jsFiles = jsFiles.sort((a,b) => {
+              jsFiles = jsFiles.sort((a, b) => {
                 if (a[0].indexOf('loose') > 0) {
                   return 1
                 }
